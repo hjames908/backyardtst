@@ -40,9 +40,8 @@ body  {
 		echo '<a href="users.php?uxl='.$userlevel.'" class="myButton">Maintain Users</a> &nbsp;&nbsp;';
 	}
 	if ($userlevel == 'admin' || $userlevel == 'supervisor') {
-		echo '<a href="" class="myButton">Maintain Cinemas</a> &nbsp;&nbsp;';
 		echo '<a href="movies.php?uxl='.$userlevel.'" class="myButton">Maintain Movies</a> &nbsp;&nbsp;';
-		echo '<a href="cinematimes.php?uxl='.$userlevel.'" class="myButton">Maintain Schedules</a>';
+		echo '<a href="cinematimes.php?uxl='.$userlevel.'" class="myButton">Maintain Schedules/Seating</a>';
 	}
 ?>
 </div>

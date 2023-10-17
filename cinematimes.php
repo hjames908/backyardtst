@@ -72,13 +72,23 @@ $port = 3306; //Default must be NULL to use default port
 $mysqli = new mysqli('localhost', $user, $password, $database, $port);
 
 //check if form was submitted (change)
-if(isset($_POST['UpdateButton'])){      
+if(isset($_POST['UpdateButton'])){
+    $upderror=''; 	
 	$updmovid = $_POST['updmovid'];
 	$updcineid = $_POST['updcineid'];
 	$updshowdat = $_POST['updshowdat'];
 	$updstrtim = $_POST['updstrtim']; //get input text
-	$SQL = "UPDATE cinema_time SET start_time='".$updstrtim."' WHERE cinema_id = '".$updcineid."' and movie_id = '".$updmovid."' and show_date = '".$updshowdat."'";
+	$updtaken = $_POST['updtaken'];
+	$updavail = $_POST['updavail'];
+	//validate total seats
+	if ($updtaken + $updavail != 100) {$upderror='Record not updated..Seats Available + Seats Taken must be equal to 100';}
+    if ($upderror != '') {
+		echo $upderror; 
+	}
+    else {	
+	$SQL = "UPDATE cinema_time SET start_time='".$updstrtim."', seatstaken = '".$updtaken."', seatsavail = '".$updavail."' WHERE cinema_id = '".$updcineid."' and movie_id = '".$updmovid."' and show_date = '".$updshowdat."'";
     $result2 = mysqli_query($mysqli, $SQL);
+	}
 }
 
 if(isset($_POST['DeleteButton'])){
@@ -87,7 +97,7 @@ if(isset($_POST['DeleteButton'])){
 
 
 //select movies where current date in the range of start date and end date 
-$SQL = "SELECT id,title,rating,show_date,start_time,cinema_id FROM movie INNER JOIN cinema_time on movie.id=cinema_time.movie_id order by show_date,cinema_id,start_time";
+$SQL = "SELECT id,title,rating,show_date,start_time,cinema_id,seatstaken,seatsavail FROM movie INNER JOIN cinema_time on movie.id=cinema_time.movie_id order by show_date,cinema_id,start_time";
 $result = mysqli_query($mysqli, $SQL);
 	
 
@@ -119,6 +129,10 @@ $result = mysqli_query($mysqli, $SQL);
 		print '<th>Title</th>';
 		print '<th>Rating</th>';
 		print '<th>Showtime</th>';
+		if ($userlevel != 'guest') {
+				print '<th>Seats Taken</th>';
+				print '<th>Seats Available</th>';
+		}
 		print '<th>Movie Details</th>';
 			if ($userlevel != 'guest') {
 				print '<th>Action</th>';
@@ -132,12 +146,18 @@ $result = mysqli_query($mysqli, $SQL);
 				$rtitl=$db_field['title'];
 				$rrating=$db_field['rating'];	
 				$rshowtime=$db_field['start_time'];
+				$rtaken=$db_field['seatstaken'];
+				$ravail=$db_field['seatsavail'];
 				print "<tr>";
 				print '<form action="" method="post">';
 				print "<td>".$reccinema." <input type='text' id='rcinemaid' name='rcinemaid' value=".$rcinemaid." style='display:none'></td>";
 				print "<td>".$rtitl." <input type='text' id='rid' name='rid' value=".$rid." style='display:none'></td>";
 				print "<td>".$rrating."</td>";
 				print "<td>".$rshowtime." <input type='text' id='rshowdate' name='rshowdate' value=".$moviedate." style='display:none'></td>";
+				if ($userlevel != 'guest') {
+					print "<td>".$rtaken."</td>";
+					print "<td>".$ravail."</td>";
+				}	
 				print '<td><input type="submit" value="Movie Info" name="DetailsButton"></td>';
 				if ($userlevel != 'guest') {
 					print '<td><input type="submit" value="Change" name="SubmitButton"> &nbsp;&nbsp; <input type="submit" value="Delete" name="DeleteButton"></td>';
@@ -183,11 +203,13 @@ if(isset($_POST['SubmitButton'])){
 	$updmovid = $_POST['rid'];
 	$updcineid = $_POST['rcinemaid'];
 	$updshowdat = $_POST['rshowdate'];
-	$SQL = "SELECT start_time,title FROM movie INNER JOIN cinema_time on movie.id=cinema_time.movie_id where cinema_id = '".$updcineid."' and movie_id = '".$updmovid."' and show_date = '".$updshowdat."'";
+	$SQL = "SELECT start_time,title,seatstaken,seatsavail FROM movie INNER JOIN cinema_time on movie.id=cinema_time.movie_id where cinema_id = '".$updcineid."' and movie_id = '".$updmovid."' and show_date = '".$updshowdat."'";
     $result2 = mysqli_query($mysqli, $SQL);
 	$db_field = mysqli_fetch_assoc($result2);
 	$updstrtim=$db_field['start_time'];
 	$updrtitl=$db_field['title'];
+	$updtaken=$db_field['seatstaken'];
+	$updavail=$db_field['seatsavail'];
 		
 	print '<div id="updpopup">';
 		  print '<div>';
@@ -201,7 +223,10 @@ if(isset($_POST['SubmitButton'])){
 		  print '    <label>Date</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
 		  print '    <input type="text" id="updshowdat" name="updshowdat" value='.$updshowdat.' readonly style="background-color:#6699cc"><br><br>';
 		  print '    <label>Start Time</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-		  print '    <input type="text" id="updstrtim" name="updstrtim" value='.$updstrtim.'><br><br><br><br>';
+		  print '    <input type="text" id="updstrtim" name="updstrtim" value='.$updstrtim.'><br>';
+          print '    <h2>Seating</h2>'; 
+		  print '    <label>Seats Sold</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp <input type="text" id="updtaken" name="updtaken" value='.$updtaken.'><br><br>';
+		  print '    <label>Seats Available</label>&nbsp<input type="text" id="updavail" name="updavail" value='.$updavail.'><br><br>';
 		  print '    <input type="submit" value="Change" name="UpdateButton" class="myButton"> &nbsp;&nbsp;';
 		  print '    <button onclick="closeupdPopup()" class="myButton">Cancel</button>';
           print '  </form>';
