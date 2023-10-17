@@ -2,7 +2,10 @@
 <head>
 <style>
 body  {
-   background: linear-gradient(to bottom, white, 90%, #A3E4D7);
+      background-image: url("backgrnd.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 }
 </style>
 </head>
@@ -11,7 +14,6 @@ body  {
 <link rel=stylesheet type='text/css' href='mycss.css'></link>
 <body>
 <form name=mainwindow>
-<img src="logo.png" style="position: absolute; top: 10; left: 50;z-index:-1;">
 
 
 <h1>BACKYARD CINEMA</h1>
@@ -20,27 +22,27 @@ body  {
 <?php
 	$userlevel = 'guest';
 	//Get userlevel received
-	if(isset($_GET['userlevel'])){
-		$userlevel=$_GET['userlevel'];
+	if(isset($_GET['uxl'])){
+		$userlevel=$_GET['uxl'];
 	}
 	
     echo '<a href="loginpage.php" style="font-family:Arial; color:blue; font-size:17px; font-weight:bold; position: absolute; right: 20;">Exit</a>';
 
     //Conditionally display elements based on user level
 	if ($userlevel == 'guest') {
-		echo '<a href="cinematimes.php?userlevel='.$userlevel.'" style="font-family:Arial; color:blue; font-size:17px; font-weight:bold; position: absolute; right: 80;">Movie Times</a>';
+		echo '<a href="cinematimes.php?uxl='.$userlevel.'" style="font-family:Arial; color:blue; font-size:17px; font-weight:bold; position: absolute; right: 80;">Movie Times</a>';
 	}
 
     echo '<br><br><br><br>';
 
 	//Conditionally display elements based on user level
 	if ($userlevel == 'admin') {
-		echo '<a href="" class="myButton">Maintain Users</a> &nbsp;&nbsp;';
+		echo '<a href="users.php?uxl='.$userlevel.'" class="myButton">Maintain Users</a> &nbsp;&nbsp;';
 	}
 	if ($userlevel == 'admin' || $userlevel == 'supervisor') {
 		echo '<a href="" class="myButton">Maintain Cinemas</a> &nbsp;&nbsp;';
-		echo '<a href="movies.php?userlevel='.$userlevel.'" class="myButton">Maintain Movies</a> &nbsp;&nbsp;';
-		echo '<a href="cinematimes.php?userlevel='.$userlevel.'" class="myButton">Maintain Schedules</a>';
+		echo '<a href="movies.php?uxl='.$userlevel.'" class="myButton">Maintain Movies</a> &nbsp;&nbsp;';
+		echo '<a href="cinematimes.php?uxl='.$userlevel.'" class="myButton">Maintain Schedules</a>';
 	}
 ?>
 </div>

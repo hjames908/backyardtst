@@ -2,7 +2,10 @@
 <head>
 <style>
 body  {
-   background: linear-gradient(to bottom, white, 90%, #A3E4D7);
+   background-image: url("backgrnd.jpg");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
 }
 </style>
 </head>
@@ -20,11 +23,16 @@ body  {
 LOGIN
 </p>
 <?php
-$message = "Username & Password: guest to login as guest";
+$message = "Leave blank to sign in as guest";
 $action = ""; 
 if(isset($_POST['SubmitButton'])){ //check if form was submitted
   $authuser = strip_tags(trim($_POST['username'])); //get input text  
   $authpass = strip_tags(trim($_POST['password'])); //get input text
+  
+  $reslevel ='';
+  if ($authuser == '') {
+	  $reslevel = 'guest';
+  } 	  
   
   $user = 'root';
   $password = ''; //To be completed if you have set a password to root
@@ -37,25 +45,24 @@ if(isset($_POST['SubmitButton'])){ //check if form was submitted
   //$result = mysqli_query($mysqli, $SQL);
   
   //userlevel passed to main php to determine elements hidden/displayed
-  //user file should have a userlevel field (patron (if sign on data for patrons are to be stored),admin,supervisor)
-  //username used as userlevel in this example program
-  if ($authuser == 'guest' || $authuser == 'admin' || $authuser == 'supervisor') {
-	  Header("Location: index.php?userlevel=".$authuser);
+  
+  if ($reslevel == 'guest') {
+	  Header("Location: index.php?uxl=".$reslevel);
   }
   else {
  
   //Using parameterized query to prevent SQL Injection
-  $stmt = mysqli_prepare($mysqli, "SELECT username,password from user where username = ?");
+  $stmt = mysqli_prepare($mysqli, "SELECT username,password,userlevel from user where username = ?");
   mysqli_stmt_bind_param($stmt, "s", $authuser);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $resusr,$respas);
+  mysqli_stmt_bind_result($stmt, $resusr,$respas,$reslevel);
   mysqli_stmt_fetch($stmt);
   
    if ($resusr == $authuser) {
 	  if ($respas == $authpass) {
 		  mysqli_stmt_close($stmt);
 		  $mysqli->close();
-		  header("location: index.php");
+		  header("location: index.php?uxl=".$reslevel);
       }
       else {
 		  $message =  "Invalid Password";
@@ -79,13 +86,13 @@ if(isset($_POST['SubmitButton'])){ //check if form was submitted
 	<table cellspacing=8>
 	<tr><td>
 	<span>Username</span><br>
-    <input type="text" id="username" name="username" size="40" placeholder="Enter Username.." required>
+    <input type="text" id="username" name="username" size="40" placeholder="Enter Username..">
 	</td></tr><tr><td>
     <span>Password</span><br>
-    <input type="password" id="password" name="password" size="40" placeholder="Enter Password.." required>
+    <input type="password" id="password" name="password" size="40" placeholder="Enter Password..">
     </td></tr><tr><td>
 	<br>
-    <input type="submit" value="Submit" name="SubmitButton">
+    <input type="submit" value="Sign In" name="SubmitButton">
 	</td></tr><tr><td>
 	<?php echo $message; ?>
 	</td></tr>

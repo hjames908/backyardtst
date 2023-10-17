@@ -2,7 +2,7 @@
 <head>
 <style>
 body  {
-   background: linear-gradient(to bottom, white, 90%, #A3E4D7);
+      
 }
 </style>
 </head>
@@ -12,17 +12,16 @@ body  {
 <body>
 
 
-<img src="logo.png" style="position: absolute; top: 10; left: 50;z-index:-1;">
 <h1>BACKYARD CINEMA</h1
 <br>
 <div>
 <?php
 	$userlevel = 'guest';
 	//Get userlevel received
-	if(isset($_GET['userlevel'])){
-		$userlevel=$_GET['userlevel'];
+	if(isset($_GET['uxl'])){
+		$userlevel=$_GET['uxl'];
 	}
-	echo '<a href="index.php?userlevel='.$userlevel.'" class="myButton">Home</a>';
+	echo '<a href="index.php?uxl='.$userlevel.'" class="myButton">Home</a>';
 ?>
 </div>
 <br>
