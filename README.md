@@ -1,5 +1,18 @@
-# backyardtst
-Backyard Cinema Test
+
+# Backyard Cinema
+
+The aim of this project is to develop a Cinema Management System that will help manage all aspects of the cinema. The development of this system will be implemented in phases to ease the disruption of business operations. The first phase of this project has the following scope:
+
+• Manage movie schedule across all cinema screens.
+
+• Provide movie schedule for all patrons to view.
+
+• Manage movie information.
+
+• Manage cinema screens and all associated information.
+
+
+## Installation
 
 Step 1 Install WAMP on the server of your organization
 
@@ -24,4 +37,14 @@ testing php installation
 then your WAMP installation  is working properly.
 
 After you have successfully installed WAMP, an icon comes in the right-hand corner of the Taskbar. Click on that icon and from here you start / restart /close Apache, PHP, and MySQL. You can also change settings of Apache,PHP, and MySQL.
+
+    
+## Documentation
+
+[Test Plan](https://github.com/hjames908/backyardtst/blob/main/Test%20Plan.docx)
+
+
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/hjames908/backyardtst/main/backgrnd.jpg)
 
