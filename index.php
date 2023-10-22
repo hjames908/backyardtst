@@ -61,7 +61,7 @@ $database = 'byardtst'; //To be completed to connect to a database. The database
 $port = 3306; //Default must be NULL to use default port
 $mysqli = new mysqli('localhost', $user, $password, $database, $port);
 
-//select movies where current date in the range of start date and end date 
+//select movies where current date in the range of start date and end date. 
 $SQL = "SELECT * FROM movie where CURDATE() >= start_date and CURDATE() <= end_date order by title";
 $result = mysqli_query($mysqli, $SQL);
 
