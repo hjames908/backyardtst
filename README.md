@@ -11,7 +11,6 @@ The aim of this project is to develop a Cinema Management System that will help 
 
 • Manage cinema screens and all associated information.
 
-
 ## Installation
 
 Step 1 Install WAMP on the server of your organization
@@ -38,7 +37,6 @@ then your WAMP installation  is working properly.
 
 After you have successfully installed WAMP, an icon comes in the right-hand corner of the Taskbar. Click on that icon and from here you start / restart /close Apache, PHP, and MySQL. You can also change settings of Apache,PHP, and MySQL.
 
-    
 ## Documentation
 
 [Test Plan](https://github.com/hjames908/backyardtst/blob/main/Test%20Plan.docx)
@@ -46,5 +44,6 @@ After you have successfully installed WAMP, an icon comes in the right-hand corn
 
 ## Screenshots
 
-![App Screenshot](https://raw.githubusercontent.com/hjames908/backyardtst/main/backgrnd.jpg)
+![Main Screen](https://raw.githubusercontent.com/hjames908/backyardtst/main/logo.png)
 
+![Movies](https://raw.githubusercontent.com/hjames908/backyardtst/main/backgrnd.jpg)
